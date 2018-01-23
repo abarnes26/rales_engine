@@ -1,11 +1,11 @@
 class Api::V1::Merchants::FindController < ApplicationController
 
   def show
-    render json: Customer.find_by(find_params)
+    render json: Merchant.find_by(find_params)
   end
 
   def index
-    render json: Customer.where(find_params)
+    render json: Merchant.where(find_params)
   end
 
   private
