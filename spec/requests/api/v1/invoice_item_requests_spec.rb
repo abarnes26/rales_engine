@@ -49,7 +49,7 @@ describe "Invoice Items API" do
       expect(result).to have_key("quantity")
     end
 
-    xit "can find a group of invoice items with a common quantity" do
+    it "can find a group of invoice items with a common quantity" do
       create_list(:invoice_item, 3, quantity: 11)
       create(:invoice_item, quantity: 7)
 
