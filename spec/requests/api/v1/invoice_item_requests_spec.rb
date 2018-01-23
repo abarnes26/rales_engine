@@ -37,28 +37,28 @@ describe "Invoice Items API" do
       expect(result).to have_key("unit_price")
     end
 
-    xit "can find a single customer via last_name" do
-      customer = create(:customer, last_name: "Hamilton")
+    it "can find a single invoice_item via unit price" do
+      invoice_item = create(:invoice_item, unit_price: 1099)
 
-      get "/api/v1/customers/find?last_name=#{customer.last_name}"
+      get "/api/v1/invoice_items/find?unit_price=#{invoice_item.unit_price}"
 
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result["last_name"]).to eq("Hamilton")
-      expect(result).to have_key("first_name")
+      expect(result["unit_price"]).to eq(1099)
+      expect(result).to have_key("quantity")
     end
 
-    xit "can find a group of customers with a common first name" do
-      create_list(:customer, 3, first_name: "Hank")
-      create(:customer, first_name: "Sarah")
+    xit "can find a group of invoice items with a common quantity" do
+      create_list(:invoice_item, 3, quantity: 11)
+      create(:invoice_item, quantity: 7)
 
-      get "/api/v1/customers/find_all?first_name=Hank"
+      get "/api/v1/invoice_items/find_all?quantity=11"
 
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(Customer.all.count).to eq(4)
+      expect(InvoiceItem.all.count).to eq(4)
       expect(result.count).to eq(3)
     end
   end
