@@ -26,15 +26,15 @@ describe "Customers API" do
     end
 
     it "can find a single customer via params" do
-      customer = create(:customer)
+      customer = create(:customer, first_name: "Joey")
 
-      get "/api/v1/customer/find?first_name=#{customer.first_name}"
+      get "/api/v1/customers/find?first_name=#{customer.first_name}"
 
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result.count).to eq(1)
-      expect(result).to eq(customer)
+      expect(result["first_name"]).to eq("Joey")
+      expect(result).to have_key("last_name")
     end
   end
 end
