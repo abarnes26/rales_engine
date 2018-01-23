@@ -8,11 +8,12 @@
 
   require 'csv'
 
+  InvoiceItem.delete_all
+  Transaction.delete_all
   Invoice.delete_all
   Item.delete_all
   Customer.delete_all
   Merchant.delete_all
-  Transaction.delete_all
 
   customer_csv_text = File.read('./data/customers.csv')
   csv = CSV.parse(customer_csv_text, :headers => true)
@@ -42,6 +43,12 @@
   csv = CSV.parse(transaction_csv_text, :headers => true)
   csv.each do |row|
     Transaction.create!(row.to_hash)
+  end
+
+  invoice_item_csv_text = File.read('./data/item_invoices.csv')
+  csv = CSV.parse(invoice_item_csv_text, :headers => true)
+  csv.each do |row|
+    InvoiceItem.create!(row.to_hash)
   end
 
   puts "Seed Complete"
