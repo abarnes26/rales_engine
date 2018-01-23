@@ -3,6 +3,7 @@ Rails.application.routes.draw do
       namespace :v1 do
         namespace :customers do
           get "find", to: "find#show"
+          get "find_all", to: "find#index"
         end
         resources :customers, only: [:index, :show]
         resources :items, only: [:index, :show]

@@ -48,5 +48,18 @@ describe "Customers API" do
       expect(result["last_name"]).to eq("Hamilton")
       expect(result).to have_key("first_name")
     end
+
+    it "can find a group of customers with a common first name" do
+      create_list(:customer, 3, first_name: "Hank")
+      create(:customer, first_name: "Sarah")
+
+      get "/api/v1/customers/find_all?first_name=Hank"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Customer.all.count).to eq(4)
+      expect(result.count).to eq(3)
+    end
   end
 end
