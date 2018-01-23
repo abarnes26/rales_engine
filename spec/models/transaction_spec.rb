@@ -1,18 +1,15 @@
 require 'rails_helper'
 
-describe Invoice, type: :model do
+describe Transaction, type: :model do
   describe "Validations" do
-    it {is_expected.to validate_presence_of(:customer_id)}
-    it {is_expected.to validate_presence_of(:merchant_id)}
-    it {is_expected.to validate_presence_of(:status)}
+    it {is_expected.to validate_presence_of(:invoice_id)}
+    it {is_expected.to validate_presence_of(:credit_card_number)}
+    it {is_expected.to validate_presence_of(:credit_card_expiration_date)}
+    it {is_expected.to validate_presence_of(:result)}
   end
 
   describe "Relationships" do
-    it {is_expected.to have_many(:transactions)}
-    it {is_expected.to have_many(:invoice_items)}
-    it {is_expected.to have_many(:items)}
-    it {is_expected.to belong_to(:customer)}
-    it {is_expected.to belong_to(:merchant)}
+    it {is_expected.to belong_to(:invoice)}
   end
 
 end
