@@ -1,4 +1,4 @@
 class Transaction < ApplicationRecord
-  has_one :invoice
+  belongs_to :invoice
 
 end
