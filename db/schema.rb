@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 20180122234942) do
   create_table "customers", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "created_at"
-    t.string "updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "invoice_items", force: :cascade do |t|
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20180122234942) do
     t.bigint "item_id"
     t.integer "quantity"
     t.float "unit_price"
-    t.string "created_at"
-    t.string "updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
     t.index ["item_id"], name: "index_invoice_items_on_item_id"
   end
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20180122234942) do
     t.bigint "customer_id"
     t.bigint "merchant_id"
     t.string "status"
-    t.string "created_at"
-    t.string "updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["customer_id"], name: "index_invoices_on_customer_id"
     t.index ["merchant_id"], name: "index_invoices_on_merchant_id"
   end
@@ -48,15 +48,15 @@ ActiveRecord::Schema.define(version: 20180122234942) do
     t.string "description"
     t.float "unit_price"
     t.bigint "merchant_id"
-    t.string "created_at"
-    t.string "updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["merchant_id"], name: "index_items_on_merchant_id"
   end
 
   create_table "merchants", force: :cascade do |t|
     t.string "name"
-    t.string "created_at"
-    t.string "updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -64,8 +64,8 @@ ActiveRecord::Schema.define(version: 20180122234942) do
     t.string "credit_card_number"
     t.string "credit_card_expiration_date"
     t.string "result"
-    t.string "created_at"
-    t.string "updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["invoice_id"], name: "index_transactions_on_invoice_id"
   end
 

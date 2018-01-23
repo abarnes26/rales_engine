@@ -5,8 +5,8 @@ class CreateTransactions < ActiveRecord::Migration[5.1]
       t.string :credit_card_number
       t.string :credit_card_expiration_date
       t.string :result
-      t.string :created_at
-      t.string :updated_at
+      t.datetime :created_at
+      t.datetime :updated_at
     end
   end
 end
