@@ -104,6 +104,20 @@ describe "Items API" do
       expect(result["description"]).to eq("This is the one")
     end
 
+    it "can find a single item at random" do
+      create_list(:item, 10)
+
+      get "/api/v1/items/random"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Item.all.count).to eq(10)
+      expect(result).to have_key("name")
+      expect(result).to have_key("description")
+      expect(result).to have_key("unit_price")
+    end
+
     it "can find a group of items with a common unit price" do
       create_list(:item, 3, unit_price: 301)
       create(:item, unit_price: 70)

@@ -8,6 +8,10 @@ class Api::V1::Invoices::FindController < ApplicationController
     render json: Invoice.where(find_params)
   end
 
+  def random
+    render json: Invoice.order("RANDOM()").first
+  end
+
   private
 
   def find_params

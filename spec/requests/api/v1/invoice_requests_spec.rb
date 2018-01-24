@@ -71,6 +71,18 @@ describe "Invoices API" do
       expect(result["status"]).to eq("This is the one")
     end
 
+    it "can find a single invoice at random" do
+      create_list(:invoice, 10)
+
+      get "/api/v1/invoices/random"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Invoice.all.count).to eq(10)
+      expect(result).to have_key("status")
+    end
+
     it "can find a group of invoices via a common status" do
       create_list(:invoice, 3, status: "shipped")
       create(:invoice)

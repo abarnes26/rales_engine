@@ -8,6 +8,10 @@ class Api::V1::Merchants::FindController < ApplicationController
     render json: Merchant.where(find_params)
   end
 
+  def random
+    render json: Merchant.order("RANDOM()").first
+  end
+
   private
 
   def find_params
