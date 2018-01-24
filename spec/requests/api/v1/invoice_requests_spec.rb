@@ -36,6 +36,17 @@ describe "Invoices API" do
       expect(result["status"]).to eq("shipped")
     end
 
+    it "can find a single invoice via status regardless of case" do
+      invoice = create(:invoice, status: "shipped")
+
+      get "/api/v1/invoices/find?status=ShIpPeD"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["status"]).to eq("shipped")
+    end
+
     it "can find a group of invoices via  a common status" do
       create_list(:invoice, 3, status: "shipped")
       create(:invoice)

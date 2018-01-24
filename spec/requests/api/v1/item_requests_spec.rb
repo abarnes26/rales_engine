@@ -58,6 +58,17 @@ describe "Items API" do
       expect(result["description"]).to eq("That other thing you wanted")
     end
 
+    it "can find a single item via description regardless of case" do
+      item = create(:item, description: "That other thing you wanted")
+
+      get "/api/v1/items/find?description=THAT other THING you WANTED"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["description"]).to eq("That other thing you wanted")
+    end
+
     it "can find a single item via unit price" do
       item = create(:item, unit_price: 333)
 

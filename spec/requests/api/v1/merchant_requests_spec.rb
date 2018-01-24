@@ -24,5 +24,40 @@ describe "Merchants API" do
       expect(response).to be_success
       expect(merchant["id"]).to eq(id)
     end
+
+    it "can find a single merchant via name" do
+      merchant = create(:merchant, name: "Hagar Tulip")
+
+      get "/api/v1/merchants/find?name=#{merchant.name}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["name"]).to eq("Hagar Tulip")
+    end
+
+    it "can find a single merchant via name regardless of case" do
+      merchant = create(:merchant, name: "Hagar Tulip")
+
+      get "/api/v1/merchants/find?name=HaGAr%20TULip"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["name"]).to eq("Hagar Tulip")
+    end
+
+    it "can find a group of merchants via name" do
+      create_list(:merchant, 3, name: "John Johnson")
+      create(:merchant)
+
+      get "/api/v1/merchants/find_all?name=John%20Johnson"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Merchant.all.count).to eq(4)
+      expect(result.count).to eq(3)
+    end
   end
 end
