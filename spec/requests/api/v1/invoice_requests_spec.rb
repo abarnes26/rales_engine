@@ -129,5 +129,25 @@ describe "Invoices API" do
       expect(result.first).to have_key("quantity")
       expect(result.first).to have_key("unit_price")
     end
+
+    it "can find associated items" do
+      invoice = create(:invoice)
+      item_1 = create(:item)
+      item_2 = create(:item)
+      item_3 = create(:item)
+      invoice_item_1 = create(:invoice_item, invoice: invoice, item: item_1)
+      invoice_item_2 = create(:invoice_item, invoice: invoice, item: item_2)
+
+      get "/api/v1/invoices/#{invoice.id}/items"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Item.all.count).to eq(3)
+      expect(result.count).to eq(2)
+      expect(result.first).to have_key("name")
+      expect(result.first).to have_key("description")
+      expect(result.first).to have_key("unit_price")
+    end
   end
 end
