@@ -75,6 +75,19 @@ describe "Transactions API" do
       expect(result["result"]).to eq("success")
     end
 
+    it "can find a single transaction at random" do
+      create_list(:transaction, 10)
+
+      get "/api/v1/transactions/random"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Transaction.all.count).to eq(10)
+      expect(result).to have_key("credit_card_number")
+      expect(result).to have_key("result")
+    end
+
     it "can find a group of transactions via result" do
       create_list(:transaction, 3, result: "success")
       create(:transaction, result: "failure")
