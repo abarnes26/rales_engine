@@ -100,6 +100,19 @@ describe "Customers API" do
       expect(result).to have_key("first_name")
     end
 
+    it "can find a single customer at random" do
+      create_list(:customer, 10)
+
+      get "/api/v1/customers/random"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Customer.all.count).to eq(10)
+      expect(result).to have_key("first_name")
+      expect(result).to have_key("last_name")
+    end
+
     it "can find a group of customers with a common first name" do
       create_list(:customer, 3, first_name: "Hank")
       create(:customer, first_name: "Sarah")
