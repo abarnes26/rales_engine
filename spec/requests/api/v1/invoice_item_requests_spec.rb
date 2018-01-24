@@ -75,6 +75,19 @@ describe "Invoice Items API" do
       expect(result).to have_key("quantity")
     end
 
+    it "can find a single invoice_item at random" do
+      create_list(:invoice_item, 10)
+
+      get "/api/v1/invoice_items/random"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(InvoiceItem.all.count).to eq(10)
+      expect(result).to have_key("quantity")
+      expect(result).to have_key("unit_price")
+    end
+
     it "can find a group of invoice items with a common quantity" do
       create_list(:invoice_item, 3, quantity: 11)
       create(:invoice_item, quantity: 7)
