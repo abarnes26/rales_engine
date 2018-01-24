@@ -131,19 +131,33 @@ describe "Items API" do
       expect(result.count).to eq(3)
     end
 
-    it "can find associated invoice_item" do
+    it "can find associated invoice_items" do
       item = create(:item)
       invoice_item_1 = create(:invoice_item, quantity: 5, item: item)
       invoice_item_2 = create(:invoice_item, quantity: 18, item: item)
       invoice_item_3 = create(:invoice_item)
 
-      get "/api/v1/items/#{item.id}/invoice_item"
+      get "/api/v1/items/#{item.id}/invoice_items"
 
       result = JSON.parse(response.body)
 
       expect(response).to be_success
       expect(InvoiceItem.all.count).to eq(3)
       expect(result.first["quantity"]).to eq(5)
+    end
+
+    it "can find associated merchants" do
+      merchant_1 = create(:merchant, name: "Daniels")
+      merchant_2 = create(:merchant)
+      item = create(:item, merchant: merchant_1)
+
+      get "/api/v1/items/#{item.id}/merchant"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Merchant.all.count).to eq(2)
+      expect(result["name"]).to eq("Daniels")
     end
   end
 end

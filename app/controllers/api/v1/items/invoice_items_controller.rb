@@ -9,5 +9,4 @@ class Api::V1::Items::InvoiceItemsController < ApplicationController
       params.permit(:id)
     end
 
-
 end
