@@ -95,5 +95,22 @@ describe "Merchants API" do
       expect(Merchant.all.count).to eq(4)
       expect(result.count).to eq(3)
     end
+
+    it "can find associated invoices" do
+      merchant = create(:merchant)
+      invoice_1 = create(:invoice, status: "completed", merchant: merchant)
+      invoice_2 = create(:invoice, merchant: merchant)
+      invoice_3 = create(:invoice)
+
+      get "/api/v1/merchants/#{merchant.id}/invoices"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Invoice.all.count).to eq(3)
+      expect(result.first["status"]).to eq(invoice_1.status)
+    end
+
+
   end
 end
