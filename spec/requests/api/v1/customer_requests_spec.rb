@@ -128,6 +128,30 @@ describe "Customers API" do
       expect(response).to be_success
       expect(Invoice.all.count).to eq(4)
       expect(result.count).to eq(2)
+      expect(result.first).to have_key("status")
+    end
+
+    it "can find transactions associated with a particular customer" do
+      customer_1 = create(:customer, first_name: "Sarah")
+      customer_2 = create(:customer, first_name: "George")
+      invoice_1 = create(:invoice, customer: customer_1)
+      invoice_2 = create(:invoice, customer: customer_1)
+      invoice_3 = create(:invoice, customer: customer_2)
+      invoice_4 = create(:invoice, customer: customer_2)
+      transaction_1 = create(:transaction, invoice: invoice_1)
+      transaction_2 = create(:transaction, invoice: invoice_2)
+      transaction_3 = create(:transaction, invoice: invoice_2)
+      transaction_4 = create(:transaction, invoice: invoice_3)
+      transaction_5 = create(:transaction, invoice: invoice_4)
+      transaction_6 = create(:transaction, invoice: invoice_4)
+
+      get "/api/v1/customers/#{customer_1.id}/transactions"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Transaction.all.count).to eq(6)
+      expect(result.count).to eq(3)
     end
 
   end
