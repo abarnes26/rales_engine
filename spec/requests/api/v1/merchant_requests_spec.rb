@@ -71,6 +71,18 @@ describe "Merchants API" do
       expect(result["name"]).to eq("I'm the one")
     end
 
+    it "can find a single merchant at random" do
+      create_list(:merchant, 10)
+
+      get "/api/v1/merchants/random"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Merchant.all.count).to eq(10)
+      expect(result).to have_key("name")
+    end
+
     it "can find a group of merchants via name" do
       create_list(:merchant, 3, name: "John Johnson")
       create(:merchant)
