@@ -130,5 +130,20 @@ describe "Items API" do
       expect(Item.all.count).to eq(4)
       expect(result.count).to eq(3)
     end
+
+    it "can find associated invoice_item" do
+      item = create(:item)
+      invoice_item_1 = create(:invoice_item, quantity: 5, item: item)
+      invoice_item_2 = create(:invoice_item, quantity: 18, item: item)
+      invoice_item_3 = create(:invoice_item)
+
+      get "/api/v1/items/#{item.id}/invoice_item"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(InvoiceItem.all.count).to eq(3)
+      expect(result.first["quantity"]).to eq(5)
+    end
   end
 end
