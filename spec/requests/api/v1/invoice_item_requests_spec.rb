@@ -114,5 +114,19 @@ describe "Invoice Items API" do
       expect(Item.all.count).to eq(2)
       expect(result["name"]).to eq("Thing2")
     end
+
+    it "can return associated item" do
+      invoice_1 = create(:invoice, status: "Received")
+      invoice_2 = create(:invoice, status: "Approved!")
+      invoice_item = create(:invoice_item, invoice: invoice_2)
+
+      get "/api/v1/invoice_items/#{invoice_item.id}/invoice"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Invoice.all.count).to eq(2)
+      expect(result["status"]).to eq("Approved!")
+    end
   end
 end
