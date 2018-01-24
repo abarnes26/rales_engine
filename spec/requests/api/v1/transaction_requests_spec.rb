@@ -51,6 +51,30 @@ describe "Transactions API" do
       expect(result["credit_card_number"]).to eq("1112111211121112")
     end
 
+    it "can find a single transaction based on created_at time" do
+      create_list(:transaction, 3, result: "failure")
+      transaction = create(:transaction, result: "success", created_at: "2012-03-27 14:54:09 UTC")
+
+      get "/api/v1/transactions/find?created_at=#{transaction.created_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["result"]).to eq("success")
+    end
+
+    it "can find a single transaction based on updated_at time" do
+      create_list(:transaction, 3, result: "failure")
+      transaction = create(:transaction, result: "success", updated_at: "2012-03-27 14:54:10 UTC")
+
+      get "/api/v1/transactions/find?updated_at=#{transaction.updated_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["result"]).to eq("success")
+    end
+
     it "can find a group of transactions via result" do
       create_list(:transaction, 3, result: "success")
       create(:transaction, result: "failure")

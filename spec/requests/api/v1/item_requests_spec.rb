@@ -80,6 +80,30 @@ describe "Items API" do
       expect(result["unit_price"]).to eq(333)
     end
 
+    it "can find a single item based on created_at time" do
+      create_list(:item, 3, description: "not the one you're looking for")
+      item = create(:item, description: "This is the one", created_at: "2012-03-27 14:54:09 UTC")
+
+      get "/api/v1/items/find?created_at=#{item.created_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["description"]).to eq("This is the one")
+    end
+
+    it "can find a single item based on updated_at time" do
+      create_list(:item, 3, description: "not the one you're looking for")
+      item = create(:item, description: "This is the one", updated_at: "2012-03-27 14:54:10 UTC")
+
+      get "/api/v1/items/find?updated_at=#{item.updated_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["description"]).to eq("This is the one")
+    end
+
     it "can find a group of items with a common unit price" do
       create_list(:item, 3, unit_price: 301)
       create(:item, unit_price: 70)

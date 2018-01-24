@@ -47,7 +47,31 @@ describe "Invoices API" do
       expect(result["status"]).to eq("shipped")
     end
 
-    it "can find a group of invoices via  a common status" do
+    it "can find a single invoice based on created_at time" do
+      create_list(:invoice, 3, status: "not the one you're looking for")
+      invoice = create(:invoice, status: "This is the one", created_at: "2012-03-27 14:54:09 UTC")
+
+      get "/api/v1/invoices/find?created_at=#{invoice.created_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["status"]).to eq("This is the one")
+    end
+
+    it "can find a single invoice based on updated_at time" do
+      create_list(:invoice, 3, status: "not the one you're looking for")
+      invoice = create(:invoice, status: "This is the one", updated_at: "2012-03-27 14:54:10 UTC")
+
+      get "/api/v1/invoices/find?updated_at=#{invoice.updated_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["status"]).to eq("This is the one")
+    end
+
+    it "can find a group of invoices via a common status" do
       create_list(:invoice, 3, status: "shipped")
       create(:invoice)
 

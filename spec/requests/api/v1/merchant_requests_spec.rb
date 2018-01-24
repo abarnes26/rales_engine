@@ -47,6 +47,30 @@ describe "Merchants API" do
       expect(result["name"]).to eq("Hagar Tulip")
     end
 
+    it "can find a single merchant based on created_at time" do
+      create_list(:merchant, 3, name: "not it!")
+      merchant = create(:merchant, name: "I'm the one", created_at: "2012-03-27 14:54:09 UTC")
+
+      get "/api/v1/merchants/find?created_at=#{merchant.created_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["name"]).to eq("I'm the one")
+    end
+
+    it "can find a single merchant based on updated_at time" do
+      create_list(:merchant, 3, name: "not it!")
+      merchant = create(:merchant, name: "I'm the one", updated_at: "2012-03-27 14:54:10 UTC")
+
+      get "/api/v1/merchants/find?updated_at=#{merchant.updated_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["name"]).to eq("I'm the one")
+    end
+
     it "can find a group of merchants via name" do
       create_list(:merchant, 3, name: "John Johnson")
       create(:merchant)

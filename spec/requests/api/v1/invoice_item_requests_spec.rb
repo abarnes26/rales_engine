@@ -37,6 +37,32 @@ describe "Invoice Items API" do
       expect(result).to have_key("unit_price")
     end
 
+    it "can find a single invoice_item based on created_at time" do
+      create_list(:invoice_item, 3, quantity: 5)
+      invoice_item = create(:invoice_item, quantity: 88, created_at: "2012-03-27 14:54:09 UTC")
+
+      get "/api/v1/invoice_items/find?created_at=#{invoice_item.created_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["quantity"]).to eq(88)
+      expect(result).to have_key("unit_price")
+    end
+
+    it "can find a single invoice_item based on updated_at time" do
+      create_list(:invoice_item, 3, quantity: 5)
+      invoice_item = create(:invoice_item, quantity: 88, updated_at: "2012-03-27 14:54:10 UTC")
+
+      get "/api/v1/invoice_items/find?updated_at=#{invoice_item.updated_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["quantity"]).to eq(88)
+      expect(result).to have_key("unit_price")
+    end
+
     it "can find a single invoice_item via unit price" do
       invoice_item = create(:invoice_item, unit_price: 1099)
 

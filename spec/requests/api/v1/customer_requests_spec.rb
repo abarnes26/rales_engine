@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 describe "Customers API" do
   context "HTTP GET" do
     it "sends a list of customers" do
@@ -59,6 +60,32 @@ describe "Customers API" do
       expect(response).to be_success
       expect(result["last_name"]).to eq("Hamilton")
       expect(result).to have_key("first_name")
+    end
+
+    it "can find a single customer based on created_at time" do
+      create_list(:customer, 3)
+      customer = create(:customer, first_name: "Jones", created_at: "2012-03-27 14:54:09 UTC")
+
+      get "/api/v1/customers/find?created_at=#{customer.created_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["first_name"]).to eq("Jones")
+      expect(result).to have_key("last_name")
+    end
+
+    it "can find a single customer based on updated_at time" do
+      create_list(:customer, 3)
+      customer = create(:customer, first_name: "Jones", updated_at: "2012-03-27 14:54:10 UTC")
+
+      get "/api/v1/customers/find?updated_at=#{customer.updated_at}"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["first_name"]).to eq("Jones")
+      expect(result).to have_key("last_name")
     end
 
     it "can find a single customer via last_name regardless of case" do
