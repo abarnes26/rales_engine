@@ -101,5 +101,17 @@ describe "Transactions API" do
       expect(result.count).to eq(3)
     end
 
+    it "can find associated invoice" do
+      invoice_1 = create(:invoice, status: "completed")
+      transaction = create(:transaction, invoice: invoice_1)
+
+      get "/api/v1/transactions/#{transaction.id}/invoice"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["status"]).to eq(invoice_1.status)
+    end
+
   end
 end
