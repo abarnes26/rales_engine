@@ -111,6 +111,21 @@ describe "Merchants API" do
       expect(result.first["status"]).to eq(invoice_1.status)
     end
 
+    it "can find associated items" do
+      merchant = create(:merchant)
+      item_1 = create(:item, name: "House Plant", merchant: merchant)
+      item_2 = create(:item, merchant: merchant)
+      item_3 = create(:item)
+
+      get "/api/v1/merchants/#{merchant.id}/items"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Item.all.count).to eq(3)
+      expect(result.first["name"]).to eq(item_1.name)
+    end
+
 
   end
 end
