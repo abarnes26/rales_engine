@@ -95,5 +95,22 @@ describe "Invoices API" do
       expect(Invoice.all.count).to eq(4)
       expect(result.count).to eq(3)
     end
+
+    it "can find associated transactions" do
+      invoice = create(:invoice)
+      transaction_1 = create(:transaction, invoice: invoice)
+      transaction_2 = create(:transaction, invoice: invoice)
+      transaction_3 = create(:transaction)
+
+      get "/api/v1/invoices/#{invoice.id}/transactions"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Transaction.all.count).to eq(3)
+      expect(result.count).to eq(2)
+      expect(result.first).to have_key("result")
+      expect(result.first).to have_key("credit_card_number")
+    end
   end
 end
