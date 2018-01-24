@@ -113,17 +113,22 @@ describe "Customers API" do
       expect(result).to have_key("last_name")
     end
 
-    it "can find a group of customers with a common first name" do
-      create_list(:customer, 3, first_name: "Hank")
-      create(:customer, first_name: "Sarah")
+    it "can find invoices associated with a particular customer" do
+      customer_1 = create(:customer, first_name: "Sarah")
+      customer_2 = create(:customer, first_name: "George")
+      invoice_1 = create(:invoice, customer: customer_1)
+      invoice_2 = create(:invoice, customer: customer_1)
+      invoice_3 = create(:invoice, customer: customer_2)
+      invoice_4 = create(:invoice, customer: customer_2)
 
-      get "/api/v1/customers/find_all?first_name=Hank"
+      get "/api/v1/customers/#{customer_1.id}/invoices"
 
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(Customer.all.count).to eq(4)
-      expect(result.count).to eq(3)
+      expect(Invoice.all.count).to eq(4)
+      expect(result.count).to eq(2)
     end
+
   end
 end
