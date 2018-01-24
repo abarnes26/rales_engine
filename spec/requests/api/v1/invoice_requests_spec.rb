@@ -149,5 +149,21 @@ describe "Invoices API" do
       expect(result.first).to have_key("description")
       expect(result.first).to have_key("unit_price")
     end
+
+    it "can find associated customer" do
+      customer_1 = create(:customer)
+      customer_2 = create(:customer, first_name: "Haley")
+      invoice = create(:invoice, customer: customer_2)
+
+      get "/api/v1/invoices/#{invoice.id}/customer"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Customer.all.count).to eq(2)
+      expect(result["first_name"]).to eq("Haley")
+      expect(result).to have_key("first_name")
+      expect(result).to have_key("last_name")
+    end
   end
 end
