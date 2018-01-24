@@ -165,5 +165,19 @@ describe "Invoices API" do
       expect(result).to have_key("first_name")
       expect(result).to have_key("last_name")
     end
+
+    it "can find associated merchant" do
+      merchant_1 = create(:merchant)
+      merchant_2 = create(:merchant, name: "Jose")
+      invoice = create(:invoice, merchant: merchant_2)
+
+      get "/api/v1/invoices/#{invoice.id}/merchant"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Merchant.all.count).to eq(2)
+      expect(result["name"]).to eq("Jose")
+    end
   end
 end
