@@ -154,5 +154,35 @@ describe "Customers API" do
       expect(result.count).to eq(3)
     end
 
+    it "can find the customer's favorite merchant" do
+      customer_1 = create(:customer, first_name: "Sarah")
+      merchant_1 = create(:merchant, name: "Jose")
+      merchant_2 = create(:merchant, name: "Johnson")
+      merchant_3 = create(:merchant, name: "Jessilee")
+      invoice_1 = create(:invoice, customer: customer_1, merchant: merchant_1)
+      invoice_2 = create(:invoice, customer: customer_1, merchant: merchant_1)
+      invoice_3 = create(:invoice, customer: customer_1, merchant: merchant_2)
+      invoice_4 = create(:invoice, customer: customer_1, merchant: merchant_2)
+      invoice_5 = create(:invoice, customer: customer_1, merchant: merchant_2)
+      invoice_6 = create(:invoice, customer: customer_1, merchant: merchant_2)
+      invoice_7 = create(:invoice, customer: customer_1, merchant: merchant_3)
+      transaction_1 = create(:transaction, invoice: invoice_1)
+      transaction_2 = create(:transaction, invoice: invoice_2)
+      transaction_3 = create(:transaction, invoice: invoice_3)
+      transaction_4 = create(:transaction, invoice: invoice_4)
+      transaction_5 = create(:transaction, invoice: invoice_5)
+      transaction_6 = create(:transaction, invoice: invoice_6)
+      transaction_6 = create(:transaction, invoice: invoice_7)
+
+      get "/api/v1/customers/#{customer_1.id}/favorite_merchant"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Merchant.count).to eq(3)
+      expect(result.count).to eq(1)
+      expect(result.first["name"]).to eq("Johnson")
+    end
+
   end
 end
