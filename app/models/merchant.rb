@@ -6,4 +6,6 @@ class Merchant < ApplicationRecord
   has_many :invoice_items, through: :invoices
   has_many :customers, through: :invoices
 
+  # default_scope { order(:id) }
+
 end

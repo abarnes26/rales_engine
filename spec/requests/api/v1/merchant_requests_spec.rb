@@ -269,7 +269,7 @@ describe "Merchants API" do
       expect(response).to be_success
       expect(Customer.count).to eq(3)
       expect(result.count).to eq(1)
-      expect(result.first["name"]).to eq("Johnson")
+      expect(result.first["first_name"]).to eq("Johnson")
     end
 
   end
