@@ -15,7 +15,7 @@ class Api::V1::Transactions::FindController < ApplicationController
   private
 
   def find_params
-    params.permit(:credit_card_number, :result, :created_at, :updated_at)
+    params.permit(:credit_card_number, :result, :created_at, :updated_at, :id, :invoice_id)
   end
 
 end
