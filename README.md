@@ -35,8 +35,13 @@ From inside the Rales Engine directory, run the command ``` rails s ``` to start
 ```
 rake
 ```
-```rake test```
-``` bundle exec rake test ``` (much more readable output)
+```
+rake test
+```
+``` 
+bundle exec rake test
+``` 
+^^(preferred)^^
 
 ## An Overview of the data relationships
 
