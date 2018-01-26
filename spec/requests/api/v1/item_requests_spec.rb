@@ -82,7 +82,7 @@ describe "Items API" do
 
     it "can find a single item based on created_at time" do
       create_list(:item, 3, description: "not the one you're looking for")
-      item = create(:item, description: "This is the one", created_at: "2012-03-27 14:54:09 UTC")
+      item = create(:item, description: "This is the one", created_at: "2012-03-21 14:54:09 UTC")
 
       get "/api/v1/items/find?created_at=#{item.created_at}"
 

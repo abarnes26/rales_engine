@@ -49,7 +49,7 @@ describe "Invoices API" do
 
     it "can find a single invoice based on created_at time" do
       create_list(:invoice, 3, status: "not the one you're looking for")
-      invoice = create(:invoice, status: "This is the one", created_at: "2012-03-27 14:54:09 UTC")
+      invoice = create(:invoice, status: "This is the one", created_at: "2012-03-21 14:51:09 UTC")
 
       get "/api/v1/invoices/find?created_at=#{invoice.created_at}"
 

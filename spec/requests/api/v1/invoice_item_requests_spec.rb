@@ -39,7 +39,7 @@ describe "Invoice Items API" do
 
     it "can find a single invoice_item based on created_at time" do
       create_list(:invoice_item, 3, quantity: 5)
-      invoice_item = create(:invoice_item, quantity: 88, created_at: "2012-03-27 14:54:09 UTC")
+      invoice_item = create(:invoice_item, quantity: 88, created_at: "2012-03-21 14:51:09 UTC")
 
       get "/api/v1/invoice_items/find?created_at=#{invoice_item.created_at}"
 

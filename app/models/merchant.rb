@@ -8,4 +8,11 @@ class Merchant < ApplicationRecord
 
   # default_scope { order(:id) }
 
+  def self.total_revenue_for_date(date)
+    joins(invoices: [:invoice_items, :transactions])
+    .where(transactions: {result: 'success'})
+    .where("date(invoices.created_at) = date('#{date}')")
+    .sum("invoice_items.quantity * invoice_items.unit_price")
+  end
+
 end

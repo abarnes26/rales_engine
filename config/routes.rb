@@ -32,6 +32,7 @@ Rails.application.routes.draw do
           get "most_items", to: "most_items#index"
           get ":id/revenue", to: "revenue#show"
           get ":id/favorite_customer", to: "favorite_customer#show"
+          get "revenue", to: "revenue_by_date#show"
         end
         resources :merchants, only: [:index, :show]
 

@@ -53,7 +53,7 @@ describe "Transactions API" do
 
     it "can find a single transaction based on created_at time" do
       create_list(:transaction, 3, result: "failure")
-      transaction = create(:transaction, result: "success", created_at: "2012-03-27 14:54:09 UTC")
+      transaction = create(:transaction, result: "success", created_at: "2012-03-21 14:54:09 UTC")
 
       get "/api/v1/transactions/find?created_at=#{transaction.created_at}"
 

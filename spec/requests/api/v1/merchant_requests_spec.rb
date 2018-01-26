@@ -49,7 +49,7 @@ describe "Merchants API" do
 
     it "can find a single merchant based on created_at time" do
       create_list(:merchant, 3, name: "not it!")
-      merchant = create(:merchant, name: "I'm the one", created_at: "2012-03-27 14:54:09 UTC")
+      merchant = create(:merchant, name: "I'm the one", created_at: "2012-03-21 14:54:09 UTC")
 
       get "/api/v1/merchants/find?created_at=#{merchant.created_at}"
 
@@ -270,6 +270,52 @@ describe "Merchants API" do
       expect(Customer.count).to eq(3)
       expect(result.count).to eq(1)
       expect(result.first["first_name"]).to eq("Johnson")
+    end
+
+    it "can find the total revenue for a given date" do
+      merchant_1 = create(:merchant)
+      merchant_2 = create(:merchant)
+      merchant_3 = create(:merchant)
+      merchant_4 = create(:merchant)
+      merchant_5 = create(:merchant)
+      invoice_1 = create(:invoice, merchant: merchant_1)
+      invoice_2 = create(:invoice, merchant: merchant_1)
+      invoice_3 = create(:invoice, merchant: merchant_2)
+      invoice_4 = create(:invoice, merchant: merchant_2)
+      invoice_5 = create(:invoice, merchant: merchant_3)
+      invoice_6 = create(:invoice, merchant: merchant_4)
+      invoice_7 = create(:invoice, merchant: merchant_5)
+      item_1 = create(:item, merchant: merchant_1)
+      item_2 = create(:item, merchant: merchant_1)
+      item_3 = create(:item, merchant: merchant_2)
+      item_4 = create(:item, merchant: merchant_2)
+      item_5 = create(:item, merchant: merchant_3)
+      item_6 = create(:item, merchant: merchant_4)
+      item_7 = create(:item, merchant: merchant_5)
+      invoice_item_1 = create(:invoice_item, invoice: invoice_1, item: item_1)
+      invoice_item_2 = create(:invoice_item, invoice: invoice_2, item: item_2)
+      invoice_item_3 = create(:invoice_item, invoice: invoice_3, item: item_3)
+      invoice_item_4 = create(:invoice_item, invoice: invoice_4, item: item_4)
+      invoice_item_5 = create(:invoice_item, invoice: invoice_5, item: item_5)
+      invoice_item_6 = create(:invoice_item, invoice: invoice_6, item: item_6)
+      invoice_item_7 = create(:invoice_item, invoice: invoice_7, item: item_7)
+      transaction_1 = create(:transaction, invoice: invoice_1)
+      transaction_2 = create(:transaction, invoice: invoice_2)
+      transaction_3 = create(:transaction, invoice: invoice_3)
+      transaction_4 = create(:transaction, invoice: invoice_4)
+      transaction_5 = create(:transaction, invoice: invoice_5)
+      transaction_6 = create(:transaction, invoice: invoice_6)
+      transaction_7 = create(:transaction, invoice: invoice_7)
+
+      get "/api/v1/merchants/revenue?date=#{invoice_1.created_at}"
+
+      result = JSON.parse(response.body)
+
+      binding.pry
+
+      expect(response).to be_success
+      expect(result["total_revenue"]).to eq("3500")
+
     end
 
   end
