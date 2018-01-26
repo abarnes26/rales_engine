@@ -3,4 +3,9 @@ class InvoiceItem < ApplicationRecord
   belongs_to :invoice
   belongs_to :item
 
+  def self.for_invoice(id)
+    joins(:invoice)
+    .where("invoices.id = ?", id)
+  end
+
 end

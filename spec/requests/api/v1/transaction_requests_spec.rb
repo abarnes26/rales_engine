@@ -53,7 +53,7 @@ describe "Transactions API" do
 
     it "can find a single transaction based on created_at time" do
       create_list(:transaction, 3, result: "failure")
-      transaction = create(:transaction, result: "success", created_at: "2012-03-27 14:54:09 UTC")
+      transaction = create(:transaction, result: "success", created_at: "2012-03-21 14:54:09 UTC")
 
       get "/api/v1/transactions/find?created_at=#{transaction.created_at}"
 
@@ -99,6 +99,18 @@ describe "Transactions API" do
       expect(response).to be_success
       expect(Transaction.all.count).to eq(4)
       expect(result.count).to eq(3)
+    end
+
+    it "can find associated invoice" do
+      invoice_1 = create(:invoice, status: "completed")
+      transaction = create(:transaction, invoice: invoice_1)
+
+      get "/api/v1/transactions/#{transaction.id}/invoice"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result["status"]).to eq(invoice_1.status)
     end
 
   end

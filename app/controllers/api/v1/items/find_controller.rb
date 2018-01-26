@@ -9,13 +9,16 @@ class Api::V1::Items::FindController < ApplicationController
   end
 
   def random
-    render json: Item.order("RANDOM()").first
+    render json: Item.unscoped.order("RANDOM()").first
   end
 
   private
 
   def find_params
-    params.permit(:name, :description, :unit_price, :created_at, :updated_at)
+    if params["unit_price"]
+      params["unit_price"]  = params["unit_price"].delete(".")
+    end
+    params.permit(:name, :description, :unit_price, :created_at, :updated_at, :id, :merchant_id)
   end
 
 end

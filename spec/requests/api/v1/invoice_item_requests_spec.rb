@@ -39,7 +39,7 @@ describe "Invoice Items API" do
 
     it "can find a single invoice_item based on created_at time" do
       create_list(:invoice_item, 3, quantity: 5)
-      invoice_item = create(:invoice_item, quantity: 88, created_at: "2012-03-27 14:54:09 UTC")
+      invoice_item = create(:invoice_item, quantity: 88, created_at: "2012-03-21 14:51:09 UTC")
 
       get "/api/v1/invoice_items/find?created_at=#{invoice_item.created_at}"
 
@@ -66,12 +66,12 @@ describe "Invoice Items API" do
     it "can find a single invoice_item via unit price" do
       invoice_item = create(:invoice_item, unit_price: 1099)
 
-      get "/api/v1/invoice_items/find?unit_price=#{invoice_item.unit_price}"
+      get "/api/v1/invoice_items/find?unit_price=10.99"
 
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result["unit_price"]).to eq(1099)
+      expect(result["unit_price"]).to eq("10.99")
       expect(result).to have_key("quantity")
     end
 
@@ -99,6 +99,47 @@ describe "Invoice Items API" do
       expect(response).to be_success
       expect(InvoiceItem.all.count).to eq(4)
       expect(result.count).to eq(3)
+    end
+
+    it "can find a group of invoice items with a common unit_price" do
+      create_list(:invoice_item, 3, unit_price: 11199)
+      create(:invoice_item, unit_price: 7010)
+
+      get "/api/v1/invoice_items/find_all?unit_price=111.99"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(InvoiceItem.all.count).to eq(4)
+      expect(result.count).to eq(3)
+    end
+
+    it "can return associated item" do
+      item_1 = create(:item, name: "Thing1")
+      item_2 = create(:item, name: "Thing2")
+      invoice_item = create(:invoice_item, item: item_2)
+
+      get "/api/v1/invoice_items/#{invoice_item.id}/item"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Item.all.count).to eq(2)
+      expect(result["name"]).to eq("Thing2")
+    end
+
+    it "can return associated item" do
+      invoice_1 = create(:invoice, status: "Received")
+      invoice_2 = create(:invoice, status: "Approved!")
+      invoice_item = create(:invoice_item, invoice: invoice_2)
+
+      get "/api/v1/invoice_items/#{invoice_item.id}/invoice"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(Invoice.all.count).to eq(2)
+      expect(result["status"]).to eq("Approved!")
     end
   end
 end
