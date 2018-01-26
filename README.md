@@ -40,7 +40,7 @@ rake
 
 The data in this project is a mock setup of an e-commerce store involving relationships between Customers, Merchants, Items and Sales (broken up into Invoices, Invoice_Items, and Transactions).  The schema illustrating these relationships can be found below -
 
-![alt text](https://drive.google.com/file/d/1C8-1j1mBkndslGPkSSXLtYMaFE_VWgK-/view?usp=sharing)
+![alt text](https://lh3.googleusercontent.com/npVkpXwAyJVUrUkd_PotEaVuue_qCmA9TYhiRg4nWUblNmeEeQxJeIlPfQOtdRwnL6ufKUL3A30AWc1gc0AbJpnkuq6GUt-XXHTWGyDXugck4lT3C2xBZkHQRR_7kCR5-YW1T3RKAKTojaktyDLy0DkivSUV1vDefhWGDzUm-1x0vP80AHxSNXE2juedqDag9oMyX0Mq59LN6JFH72V9-UF1sFMB99zTwiSbNknjF0Te-PLvitxd4dzYQh4gu2s3KiosC9n1Ns5H9_2_-iWSyTXpuHUuur-7Ht5TZfQ4TEok6dEMYwyvVAUorqG_yC86DTnh8PLpZJQzLOYpCqUh0mdumozSfQdNHWMV3Lpy8QbyQzJIVQSNFQ-FbudIMPdHfByEmSuBijdg8dTgsa2NJWDA75qtCw_BTPDKg8Tan-A_dtqrxN31c3lDvuIxNLMGnC8Eryv77klBVglAbQ02C0jIyyTdyzpoSVYBtKJQjx2e86ZNUwnSDIFg1nJ1fmgzBAe97FRapPqiX-PQTS1VeOCnUOeNJWGz6vlKIKzqoH9cszLfxt93PZz7MXPFP4VC=w2560-h1216.png)
 
 
 
