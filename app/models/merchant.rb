@@ -14,7 +14,7 @@ class Merchant < ApplicationRecord
     .where(transactions: {result: "success"})
     .group("customers.id")
     .order("count(customers.id) DESC")
-    .limit(1)
+    .first
   end
 
   def self.revenue_for_single_merchant(id)

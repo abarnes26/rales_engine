@@ -11,7 +11,7 @@ class Customer < ApplicationRecord
     .where(transactions: {result: "success"})
     .group("merchants.id")
     .order('count(merchants.id) DESC')
-    .limit(1)
+    .first
   end
 
 end
