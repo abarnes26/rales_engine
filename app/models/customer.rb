@@ -3,7 +3,7 @@ class Customer < ApplicationRecord
   has_many :invoices
   has_many :merchants, through: :invoices
 
-  # default_scope { order(id: :DESC) }
+  # default_scope { order(id: :ASC) }
 
   def self.favorite_merchant(id)
     find_by(id).merchants

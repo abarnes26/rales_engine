@@ -3,6 +3,6 @@ class MerchantRevenueSerializer < ActiveModel::Serializer
   attributes :total_revenue
 
   def total_revenue
-    number_with_precision(object.to_f/100 , precision: 2)
+    number_with_precision(object.to_f/100, precision: 2)
   end
 end

@@ -180,8 +180,7 @@ describe "Customers API" do
 
       expect(response).to be_success
       expect(Merchant.count).to eq(3)
-      expect(result.count).to eq(1)
-      expect(result.first["name"]).to eq("Johnson")
+      expect(result["name"]).to eq("Johnson")
     end
 
   end

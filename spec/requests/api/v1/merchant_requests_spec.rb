@@ -239,7 +239,7 @@ describe "Merchants API" do
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result["total_revenue"]).to eq("2000.00")
+      expect(result["revenue"]).to eq("20.00")
     end
 
     it "can find the merchant's favorite customer" do
@@ -268,8 +268,7 @@ describe "Merchants API" do
 
       expect(response).to be_success
       expect(Customer.count).to eq(3)
-      expect(result.count).to eq(1)
-      expect(result.first["first_name"]).to eq("Johnson")
+      expect(result["first_name"]).to eq("Johnson")
     end
 
     it "can find the total revenue for a given date" do
@@ -312,7 +311,7 @@ describe "Merchants API" do
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result["total_revenue"]).to eq("3500.00")
+      expect(result["total_revenue"]).to eq("35.00")
 
     end
 
