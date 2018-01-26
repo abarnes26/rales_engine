@@ -1,8 +1,7 @@
 class Api::V1::Invoices::InvoiceItemsController < ApplicationController
 
   def show
-    render json: InvoiceItem.joins(:invoice).where("invoices.id = ?", invoice_params["id"])
-    # render json: Invoice.find_by(invoice_params).invoice_items
+    render json: InvoiceItem.for_invoice(invoice_params["id"])
   end
 
   private

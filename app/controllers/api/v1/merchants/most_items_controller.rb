@@ -1,7 +1,7 @@
 class Api::V1::Merchants::MostItemsController < ApplicationController
 
   def index
-    render json: Merchant.select("merchants.*, items.count AS items_sold").joins(:invoice_items, :items, :transactions).where(transactions: {result: "success"}).group(:id).order("items_sold DESC").limit(quantity_params["quantity"].to_i)
+    render json: Merchant.items_with_most_sales(quantity_params["quantity"].to_i)
   end
 
   private

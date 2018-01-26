@@ -7,4 +7,9 @@ class Transaction < ApplicationRecord
   # scope :successful, -> { where(result: 'success') }
   # scope :unsuccessful, -> { where(result: 'not_successful')}
 
+  def self.for_customer(id)
+    joins(invoice: [:customer])
+    .where("customers.id = ?", id)
+  end
+
 end
