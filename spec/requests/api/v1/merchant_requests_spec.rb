@@ -215,7 +215,7 @@ describe "Merchants API" do
       expect(result.last["name"]).to eq(merchant_2.name)
     end
 
-    xit "can find the total revenue for a single merchant" do
+    it "can find the total revenue for a single merchant" do
       merchant_1 = create(:merchant)
       item_1 = create(:item, merchant: merchant_1)
       invoice_1 = create(:invoice, merchant: merchant_1)
@@ -239,10 +239,10 @@ describe "Merchants API" do
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result["revenue"]).to eq("2000")
+      expect(result["total_revenue"]).to eq("2000.00")
     end
 
-    xit "can find the merchant's favorite customer" do
+    it "can find the merchant's favorite customer" do
       merchant_1 = create(:merchant, name: "Sarah")
       customer_1 = create(:customer, first_name: "Jose")
       customer_2 = create(:customer, first_name: "Johnson")

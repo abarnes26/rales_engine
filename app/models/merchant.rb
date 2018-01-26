@@ -17,6 +17,13 @@ class Merchant < ApplicationRecord
     .limit(1)
   end
 
+  def self.revenue_for_single_merchant(id)
+    joins(invoices: [:invoice_items, :transactions])
+    .where(id)
+    .where(transactions: {result: "success"})
+    .sum("invoice_items.quantity*invoice_items.unit_price")
+  end
+
   def self.total_revenue_for_date(date)
     joins(invoices: [:invoice_items, :transactions])
     .where(transactions: {result: 'success'})
