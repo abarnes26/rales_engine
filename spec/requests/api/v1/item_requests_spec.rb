@@ -77,7 +77,7 @@ describe "Items API" do
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result["unit_price"]).to eq(333)
+      expect(result["unit_price"]).to eq("3.33")
     end
 
     it "can find a single item based on created_at time" do

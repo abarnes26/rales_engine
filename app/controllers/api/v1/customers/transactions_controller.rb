@@ -1,7 +1,7 @@
 class Api::V1::Customers::TransactionsController < ApplicationController
 
   def index
-    render json: Customer.find_by(customer_params).invoices.joins(:transactions)
+    render json: Transaction.joins(invoice: [:customer]).where("customers.id = ?", customer_params["id"])
   end
 
   private

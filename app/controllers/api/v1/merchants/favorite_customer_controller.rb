@@ -1,9 +1,7 @@
 class Api::V1::Merchants::FavoriteCustomerController < ApplicationController
 
   def show
-    # render json: Customer.find_by(customer_params).merchants.joins(:invoices, invoices: [:transactions]).where(transactions: {result: "success"}).group("merchants.id").order('count(merchants.id) DESC').limit(1)
-
-    render json: Merchant.find_by(merchant_params).customers.joins(invoices: [:transactions]).where(transactions: {result: "success"}).group("customers.id").order("count(customers.id) DESC").limit(1)
+    render json: Merchant.favorite_customer(merchant_params)
   end
 
   private

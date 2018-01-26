@@ -3,4 +3,15 @@ class Customer < ApplicationRecord
   has_many :invoices
   has_many :merchants, through: :invoices
 
+  default_scope { order(:id) }
+
+  def self.favorite_merchant(id)
+    find_by(id).merchants
+    .joins(:invoices, invoices: [:transactions])
+    .where(transactions: {result: "success"})
+    .group("merchants.id")
+    .order('count(merchants.id) DESC')
+    .limit(1)
+  end
+
 end

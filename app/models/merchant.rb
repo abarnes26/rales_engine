@@ -8,6 +8,15 @@ class Merchant < ApplicationRecord
 
   # default_scope { order(:id) }
 
+  def self.favorite_customer(id)
+    find_by(id).customers
+    .joins(invoices: [:transactions])
+    .where(transactions: {result: "success"})
+    .group("customers.id")
+    .order("count(customers.id) DESC")
+    .limit(1)
+  end
+
   def self.total_revenue_for_date(date)
     joins(invoices: [:invoice_items, :transactions])
     .where(transactions: {result: 'success'})

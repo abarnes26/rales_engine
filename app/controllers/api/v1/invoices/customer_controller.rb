@@ -1,7 +1,7 @@
 class Api::V1::Invoices::CustomerController < ApplicationController
 
   def show
-    render json: Invoice.find_by(invoice_params).customer
+    render json: Invoice.unscoped.find_by(invoice_params).customer
   end
 
   private

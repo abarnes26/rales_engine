@@ -1,15 +1,15 @@
 class Api::V1::Customers::FindController < ApplicationController
 
   def show
-    render json: Customer.find_by(find_params)
+    render json: Customer.unscoped.find_by(find_params)
   end
 
   def index
-    render json: Customer.where(find_params)
+    render json: Customer.unscoped.where(find_params)
   end
 
   def random
-    render json: Customer.order("RANDOM()").first
+    render json: Customer.unscoped.order("RANDOM()").first
   end
 
   private

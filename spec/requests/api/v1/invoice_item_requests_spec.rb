@@ -66,12 +66,12 @@ describe "Invoice Items API" do
     it "can find a single invoice_item via unit price" do
       invoice_item = create(:invoice_item, unit_price: 1099)
 
-      get "/api/v1/invoice_items/find?unit_price=#{invoice_item.unit_price}"
+      get "/api/v1/invoice_items/find?unit_price=10.99"
 
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result["unit_price"]).to eq(1099)
+      expect(result["unit_price"]).to eq("10.99")
       expect(result).to have_key("quantity")
     end
 
@@ -93,6 +93,19 @@ describe "Invoice Items API" do
       create(:invoice_item, quantity: 7)
 
       get "/api/v1/invoice_items/find_all?quantity=11"
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(InvoiceItem.all.count).to eq(4)
+      expect(result.count).to eq(3)
+    end
+
+    it "can find a group of invoice items with a common unit_price" do
+      create_list(:invoice_item, 3, unit_price: 11199)
+      create(:invoice_item, unit_price: 7010)
+
+      get "/api/v1/invoice_items/find_all?unit_price=111.99"
 
       result = JSON.parse(response.body)
 
